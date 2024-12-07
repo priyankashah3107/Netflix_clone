@@ -1,9 +1,10 @@
 import { fetchFromTMDB } from "../services/tmdb.services.js";
 
-export async function getTrendingMovie(req, res) {
+// Feteching Tv Shows
+export async function getTrendingTv(req, res) {
   try {
     const data = await fetchFromTMDB(
-      "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
+      "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
     );
 
     const randomMovie =
@@ -16,11 +17,11 @@ export async function getTrendingMovie(req, res) {
   }
 }
 
-export async function getMovieTrailers(req, res) {
+export async function getTvTrailers(req, res) {
   const { id } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`
+      `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`
     );
 
     return res.status(200).json({ success: true, content: data.results });
@@ -35,11 +36,11 @@ export async function getMovieTrailers(req, res) {
   }
 }
 
-export async function getMovieDetails(req, res) {
+export async function getTvDetails(req, res) {
   const { id } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}?language=en-US`
+      `https://api.themoviedb.org/3/tv/${id}?language=en-US`
     );
     return res.status(200).json({ success: true, message: data });
   } catch (error) {
@@ -56,11 +57,11 @@ export async function getMovieDetails(req, res) {
   }
 }
 
-export async function getSimilarMovie(req, res) {
+export async function getSimilarTv(req, res) {
   const { id } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`
     );
     return res.status(200).json({ success: false, similar: data.results });
   } catch (error) {
@@ -77,12 +78,12 @@ export async function getSimilarMovie(req, res) {
   }
 }
 
-// MovieList: popular, top_rated, upcoming, now_playing
-export async function getMoviebyCategory(req, res) {
+//TV SERIES LISTS : airing_today, on_the_air, top_rated
+export async function getTvsbyCategory(req, res) {
   const { category } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`
     );
     return res.status(200).json({ success: true, categories: data.results });
   } catch (error) {
