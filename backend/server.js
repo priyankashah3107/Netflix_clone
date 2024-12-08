@@ -7,6 +7,7 @@ import { connectToMongDb } from "./config/connectToMongoDb.js";
 import TvRoutes from "../backend/routes/tv.routes.js";
 import cookieParser from "cookie-parser";
 import { protectRoute } from "./middleware/protectroute.js";
+import searchRoute from "../backend/routes/search.routes.js";
 const app = express();
 dotenv.config();
 // const PORT = process.env.PORT || 8000;
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use("/api/v1/tv", protectRoute, TvRoutes);
+app.use("/api/v1/search", protectRoute, searchRoute);
 
 // console.log("MONGO URI", MONGO_URI);
 
