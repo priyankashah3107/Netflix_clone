@@ -21,6 +21,7 @@ app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use("/api/v1/tv", protectRoute, TvRoutes);
 app.use("/api/v1/search", protectRoute, searchRoute);
 
+
 // console.log("MONGO URI", MONGO_URI);
 
 app.listen(PORT, () => {

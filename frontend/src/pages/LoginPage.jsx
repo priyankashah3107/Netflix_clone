@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
-
+  const { login } = useAuthStore();
+  const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(email, password);
+    // console.log(email, password);
+    login({ email, password });
+    navigate("/");
   };
   return (
     <>
@@ -66,6 +70,7 @@ const LoginPage = () => {
                 <Link to={"/signup"} className="text-red-500 hover:underline">
                   Sign in
                 </Link>
+                s
               </div>
             </form>
           </div>

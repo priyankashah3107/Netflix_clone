@@ -1,6 +1,9 @@
 import { User } from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import { generateTokenAndSetCookie } from "../utils/genrateTokenSetCookie.js";
+
+
+
 export async function signup(req, res) {
   try {
     const { username, email, password } = req.body;
@@ -70,11 +73,16 @@ export async function signup(req, res) {
       generateTokenAndSetCookie(newUser._id, res);
       await newUser.save();
       res.status(201).json({
-        _id: newUser._id,
-        username,
-        email,
-        hashPassword,
-        image,
+        // _id: newUser._id,
+        // username,
+        // email,
+        // hashPassword,
+        // image,
+        success: true,
+        user: {
+          ...newUser._doc,
+          password,
+        },
       });
     } else {
       res.status(401).json({ message: "Invalid User Data" });
@@ -137,5 +145,17 @@ export async function logout(req, res) {
   } catch (error) {
     console.error("Error in Logout Route", error.message);
     res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+}
+
+export async function authCheck(req, res) {
+  try {
+    console.log("req.user", req.user);
+    return res.status(200).json({ success: true, user: req.user });
+  } catch (error) {
+    console.error("Error in Controller Routes", error.message);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
 }
