@@ -7,10 +7,10 @@ export async function getTrendingTv(req, res) {
       "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
     );
 
-    const randomMovie =
+    const tvMovie =
       data.results[Math.floor(Math.random() * data.results?.length)];
 
-    return res.status(200).json({ success: true, content: randomMovie });
+    return res.status(200).json({ success: true, content: tvMovie });
   } catch (error) {
     console.error("Error in GetTrendingMovie Controllers ", error.message);
     res.status(500).json({ success: false, message: "Internal Server Error" });

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./App.css";
+import "./index.css";
 import { useAuthStore } from "./store/useAuthStore.js";
 import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/home/HomePage.jsx";
@@ -38,6 +38,10 @@ function App() {
         <Route
           path="/signup"
           element={!user ? <SignupPage /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/watch/:id"
+          element={user ? <WatchPage /> : <Navigate to={"/login"} />}
         />
       </Routes>
       <Toaster />
