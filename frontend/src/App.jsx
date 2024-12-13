@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import { Loader } from "lucide-react";
+import WatchPage from "./pages/WatchPage.jsx";
 
 function App() {
   const { user, isCheckingAuth, authCheck } = useAuthStore();
