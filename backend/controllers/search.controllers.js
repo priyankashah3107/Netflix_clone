@@ -118,7 +118,7 @@ export async function HistorySearch(req, res) {
 export async function removeItemFromSearchHistory(req, res) {
   let { id } = req.params;
   // this comes as a string
-  console.log(typeof id);
+  // console.log(typeof id);
   id = parseInt(id);
   try {
     await User.findByIdAndUpdate(req.user._id, {

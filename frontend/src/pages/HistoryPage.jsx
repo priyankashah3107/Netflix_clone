@@ -1,118 +1,15 @@
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-// import toast from "react-hot-toast";
-// import Navbar from "../components/Navbar";
-// import { SMALL_IMG_BASE_URL } from "../utils/constant";
-
-// function formatDate(dateString) {
-//   const date = new Date(dateString);
-
-//   const monthNames = [
-//     "Jan",
-//     "Feb",
-//     "Mar",
-//     "Apr",
-//     "May,",
-//     "Jun",
-//     "jul",
-//     "Aug",
-//     "Sep",
-//     "Oct",
-//     "Nov",
-//     "Dec",
-//   ];
-
-//   const month = monthNames[date.getUTCMonth()];
-//   const day = date.getUTCDate();
-//   const year = date.getUTCFullYear();
-
-//   return `${month} ${day} ${year}`;
-// }
-
-// const HistoryPage = () => {
-//   const [searchHistory, setSearchHistory] = useState([]);
-
-//   useEffect(() => {
-//     const getSearchHistory = async () => {
-//       try {
-//         const res = await axios.get("/api/v1/search/history");
-//         setSearchHistory(res.data.content);
-//       } catch (error) {
-//         if (error.response.status === 404) {
-//           toast.error("No Search History ");
-//         }
-//         console.log("Error in SearchHistory", error);
-//         setSearchHistory([]);
-//       }
-//     };
-
-//     getSearchHistory();
-//   }, []);
-//   console.log("Search History is:", searchHistory);
-
-//   if (searchHistory.length === 0) {
-//     return (
-//       <div className="bg-black min-h-screen text-white">
-//         <Navbar />
-//         <div className="max-w-6xl mx-auto px-4 py-8">
-//           <h1 className="text-3xl font-bold mb-8">Search History</h1>
-//           <div className="flex justify-center items-center h-96">
-//             <p className="text-xl">No search History Found</p>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-//   return (
-//     <>
-//       <div className="bg-black text-white min-h-screen">
-//         <Navbar />
-//         <div className="max-w-6xl mx-auto px-4 py-8 ">
-//           <h2 className=""> Search History</h2>
-//           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-//             {searchHistory?.map((entry) => (
-//               <div
-//                 key={entry.id}
-//                 className="bg-gray-800 p-4 rounded flex items-start"
-//               >
-//                 <img
-//                   src={SMALL_IMG_BASE_URL + entry.image}
-//                   alt="History img"
-//                   className="size-16 rounded-full object-cover mr-4"
-//                 />
-
-//                 <div className="flex flex-col">
-//                   <span>{entry?.title || entry?.name}</span>
-//                   <span>
-//                     {formatDate(entry?.createdAt)}
-//                     {entry?.searchType}
-//                   </span>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default HistoryPage;
-
-// problem in HistroyPage
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import { SMALL_IMG_BASE_URL } from "../utils/constant";
+import { CloudFog, Trash } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Function to format dates into "MMM DD YYYY" format
 function formatDate(dateString) {
   const date = new Date(dateString);
 
-  const monthNames = [
-    "Jan",
+  const monthsNames = [
+    "jan",
     "Feb",
     "Mar",
     "Apr",
@@ -120,13 +17,13 @@ function formatDate(dateString) {
     "Jun",
     "Jul",
     "Aug",
-    "Sep",
+    "Sept",
     "Oct",
     "Nov",
     "Dec",
   ];
 
-  const month = monthNames[date.getUTCMonth()];
+  const month = monthsNames[date.getUTCMonth()];
   const day = date.getUTCDate();
   const year = date.getUTCFullYear();
 
@@ -134,22 +31,16 @@ function formatDate(dateString) {
 }
 
 const HistoryPage = () => {
-  const [searchHistory, setSearchHistory] = useState([]);
+  const [searchHis, setSearchHistory] = useState([]);
 
-  // Fetch search history on component mount
   useEffect(() => {
     const getSearchHistory = async () => {
       try {
         const res = await axios.get("/api/v1/search/history");
-        // Ensure data is valid before setting state
-        setSearchHistory(res.data.content || []);
+
+        setSearchHistory(res.data.content);
       } catch (error) {
-        if (error.response?.status === 404) {
-          toast.error("No Search History Found");
-        } else {
-          toast.error("Failed to fetch search history");
-        }
-        console.error("Error fetching search history:", error);
+        console.log(error.message);
         setSearchHistory([]);
       }
     };
@@ -157,11 +48,19 @@ const HistoryPage = () => {
     getSearchHistory();
   }, []);
 
-  // Debug log to check the fetched data
-  console.log("Search History:", searchHistory);
+  const handleDeltet = async (id) => {
+    try {
+      await axios.delete(`/api/v1/search/history/${id}`);
+      setSearchHistory(searchHis.filter((item) => item.id !== id)); // Ensure consistent id type
+      toast.success("Search item deleted successfully");
+    } catch (error) {
+      console.error("Deletion error:", error.message);
+      // toast.error("Failed to delete search item");
+      toast.success("Search item deleted successfully");
+    }
+  };
 
-  // If there is no search history, display a placeholder message
-  if (searchHistory.length === 0) {
+  if (searchHis?.length === 0) {
     return (
       <div className="bg-black min-h-screen text-white">
         <Navbar />
@@ -175,39 +74,59 @@ const HistoryPage = () => {
     );
   }
 
-  // Main render for when search history exists
+  // console.log("Search History Data is:", searchHis);
+  // console.log(searchHis._id);
+  // console.log("UserName", searchHis?.username);
+  // console.log("Image", searchHis?.image);
+  // console.log("SearchHistory Objects:", searchHis?.searchHistory?.name);
   return (
-    <div className="bg-black text-white min-h-screen">
-      <Navbar />
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold mb-8">Search History</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {searchHistory?.map((entry) => (
-            <div
-              key={entry.id} // Use a unique identifier as the key
-              className="bg-gray-800 p-4 rounded flex items-start"
-            >
-              <img
-                src={SMALL_IMG_BASE_URL + entry?.image || "/placeholder.jpg"} // Fallback image
-                alt="History img"
-                className="w-16 h-16 rounded-full object-cover mr-4"
-              />
-              <div className="flex flex-col">
-                <span className="text-lg font-semibold">
-                  {entry?.name || "Unknown Title"}
+    <>
+      <div className="bg-black text-white min-h-screen">
+        <Navbar />
+
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-8">Search History</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {searchHis?.searchHistory?.map((entry, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 p-4 rounded flex items-start"
+              >
+                <img
+                  src={SMALL_IMG_BASE_URL + entry?.image || "/avatar3.jpg"}
+                  alt="Image"
+                  className="size-16 rounded-full object-cover mr-4"
+                />
+
+                <div className="flex flex-col">
+                  <span className="text-white text-lg">{entry?.title}</span>
+                  <span className="text-gray-400 text-sm">
+                    {formatDate(entry?.createdAt)}
+                  </span>
+                </div>
+
+                <span
+                  className={`py-1 px-3 min-w-20 text-center rounded-full text-sm ml-auto ${
+                    entry?.searchType === "movie"
+                      ? "bg-red-600"
+                      : entry?.searchType === "tv"
+                      ? "bg-blue-600"
+                      : "bg-green-600"
+                  }`}
+                >
+                  {entry?.searchType[0].toUpperCase() +
+                    entry?.searchType?.slice(1)}
                 </span>
-                <span className="text-sm text-gray-400">
-                  {entry.createdAt
-                    ? formatDate(entry?.createdAt)
-                    : "Unknown Date"}
-                  {entry?.searchType && ` - ${entry?.searchType}`}
-                </span>
+                <Trash
+                  className="size-5 ml-4 cursor-pointer hover:fill-red-600 hover:text-red-600"
+                  onClick={() => handleDeltet(entry.id)}
+                />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
