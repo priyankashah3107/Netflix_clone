@@ -91,7 +91,7 @@ const WatchPage = () => {
     }
   };
 
-  console.log("SetContentDetails", content);
+  // console.log("SetContentDetails", content);
   console.log("Similar Content is", similarContent);
 
   const scrollLeft = () => {
@@ -216,25 +216,27 @@ const WatchPage = () => {
             <h3 className="text-3xl font-bold mb-4">Similar Movies/Tv Show</h3>
 
             <div
-              className="flex overflow-x-scroll scrollbar-hide gap-4 pb-4 group "
+              className="flex overflow-x-scroll scrollbar-hide gap-4 pb-4 group"
               ref={sliderRef}
             >
               {similarContent.map((content) => {
                 if (content?.poster_path === null) return null;
-                <Link
-                  key={content.id}
-                  to={`/watch/${content.id}`}
-                  className="w-52 flex-none"
-                >
-                  <img
-                    src={SMALL_IMG_BASE_URL + content?.poster_path}
-                    alt="Poster Path"
-                    className="w-full h-auto rounded-md"
-                  />
-                  <h4 className="mt-2 text-lg font-semibold">
-                    {content?.title || content?.name}
-                  </h4>
-                </Link>;
+                return (
+                  <Link
+                    key={content.id}
+                    to={`/watch/${content?.id}`}
+                    className="w-52 flex-none"
+                  >
+                    <img
+                      src={SMALL_IMG_BASE_URL + content?.poster_path}
+                      alt="Poster"
+                      className="w-full h-auto rounded-md"
+                    />
+                    <h4 className="mt-2 text-lg font-semibold">
+                      {content?.title || content?.name}
+                    </h4>
+                  </Link>
+                );
               })}
 
               <ChevronRight
@@ -250,8 +252,6 @@ const WatchPage = () => {
         )}
       </div>
     </div>
-
-    // <div>hhhhh</div>
   );
 };
 

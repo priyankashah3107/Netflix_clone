@@ -62,7 +62,7 @@ export async function movieSearch(req, res) {
       },
     });
 
-    return res.status(200).json({ success: true, movie: data.results });
+    return res.status(200).json({ success: true, content: data.results });
   } catch (error) {
     console.error("Error in MovieSearch Contoller Routes", error.message);
     return res
@@ -95,7 +95,7 @@ export async function TvSearch(req, res) {
       },
     });
 
-    return res.status(200).json({ success: true, tv: data.results });
+    return res.status(200).json({ success: true, content: data.results });
   } catch (error) {
     console.error("Error in TvSearch Contoller Routes", error.message);
     return res
@@ -106,7 +106,7 @@ export async function TvSearch(req, res) {
 
 export async function HistorySearch(req, res) {
   try {
-    return res.status(200).json({ success: true, message: req.user });
+    return res.status(200).json({ success: true, content: req.user });
   } catch (error) {
     console.error("Error in Search History Contoller Routes", error.message);
     return res
