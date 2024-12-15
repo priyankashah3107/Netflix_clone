@@ -39,8 +39,8 @@ const SearchPage = () => {
       }
     }
   };
-  console.log(searchTerm);
-  console.log("Results for Searchs", results);
+  // console.log(searchTerm);
+  // console.log("Results for Searchs", results);
   return (
     <>
       <div className="bg-black min-h-screen text-white">

@@ -74,11 +74,11 @@ const HistoryPage = () => {
     );
   }
 
-  // console.log("Search History Data is:", searchHis);
-  // console.log(searchHis._id);
-  // console.log("UserName", searchHis?.username);
-  // console.log("Image", searchHis?.image);
-  // console.log("SearchHistory Objects:", searchHis?.searchHistory?.name);
+  console.log("Search History Data is:", searchHis);
+  console.log(searchHis._id);
+  console.log("UserName", searchHis?.username);
+  console.log("Image", searchHis?.image);
+  console.log("SearchHistory Objects:", searchHis?.searchHistory?.name);
   return (
     <>
       <div className="bg-black text-white min-h-screen">
@@ -99,7 +99,9 @@ const HistoryPage = () => {
                 />
 
                 <div className="flex flex-col">
-                  <span className="text-white text-lg">{entry?.title}</span>
+                  <span className="text-white text-lg">
+                    {entry?.title || entry?.name}
+                  </span>
                   <span className="text-gray-400 text-sm">
                     {formatDate(entry?.createdAt)}
                   </span>
